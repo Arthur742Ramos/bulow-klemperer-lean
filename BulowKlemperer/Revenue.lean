@@ -16,6 +16,7 @@ under the common i.i.d. product law. The overwritten coordinate is immaterial. -
 public structure DirectMechanism (D : ValueDistribution) (n : ℕ) where
   allocation : Fin n → (Fin n → ℝ) → ℝ
   payment : Fin n → (Fin n → ℝ) → ℝ
+  allocation_measurable : ∀ i, Measurable (allocation i)
   allocation_integrable : ∀ i x, Integrable (fun v => allocation i (Function.update v i x)) (D.jointLaw n)
   payment_integrable : ∀ i x, Integrable (fun v => payment i (Function.update v i x)) (D.jointLaw n)
   allocation_nonneg : ∀ i v, 0 ≤ allocation i v
@@ -36,7 +37,7 @@ namespace DirectMechanism
   x * M.interimAllocation i x - M.interimPayment i x
 
 /-- Truthful reporting maximizes expected utility for every value in the closed support. -/
-public def BIC {D : ValueDistribution} {n : ℕ} (M : DirectMechanism D n) : Prop :=
+@[expose] public def BIC {D : ValueDistribution} {n : ℕ} (M : DirectMechanism D n) : Prop :=
   ∀ i (x y : ℝ), x ∈ Set.Icc 0 D.omega → y ∈ Set.Icc 0 D.omega →
     x * M.interimAllocation i y - M.interimPayment i y ≤ M.interimUtility i x
 

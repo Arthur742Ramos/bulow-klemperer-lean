@@ -147,7 +147,7 @@ public theorem virtualValue_measurable (D : ValueDistribution) :
     D.density_measurable)
 
 /-- Regularity of the common value distribution. -/
-public def Regular (D : ValueDistribution) : Prop :=
+@[expose] public def Regular (D : ValueDistribution) : Prop :=
   StrictMonoOn D.virtualValue (Set.Ioo 0 D.omega)
 
 /-- The product law of `n` independent draws from the common distribution. -/
@@ -228,7 +228,7 @@ public noncomputable def maxValue (D : ValueDistribution) (n : ℕ)
     (v : Fin (n + 1) → ℝ) : ℝ :=
   Finset.univ.sup' Finset.univ_nonempty (fun i => D.draw i v)
 
-public noncomputable def maxVirtual (D : ValueDistribution) (n : ℕ)
+@[expose] public noncomputable def maxVirtual (D : ValueDistribution) (n : ℕ)
     (v : Fin (n + 1) → ℝ) : ℝ :=
   Finset.univ.sup' Finset.univ_nonempty (fun i => D.virtualValue (D.draw i v))
 
