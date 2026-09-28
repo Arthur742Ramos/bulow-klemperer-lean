@@ -1,0 +1,17 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "definition_names": [
+    "BulowKlemperer.ValueDistribution.secondPriceAuction",
+    "BulowKlemperer.ValueDistribution.optimalAuction",
+    "BulowKlemperer.DirectMechanism.expectedRevenue",
+    "BulowKlemperer.ValueDistribution.Regular",
+    "BulowKlemperer.ValueDistribution.maxVirtual"
+  ],
+  "theorem_names": [
+    "BulowKlemperer.Palomar.optimalAuction_expectedRevenue",
+    "BulowKlemperer.Palomar.secondPriceAuction_expectedRevenue",
+    "BulowKlemperer.Palomar.bulowKlemperer"
+  ],
+  "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"]
+}

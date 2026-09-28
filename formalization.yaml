@@ -1,0 +1,162 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "bulow-klemperer-lean"
+  description: >-
+    A Lean proof that a no-reserve second-price auction with one additional
+    independent bidder has at least the expected revenue of the optimal
+    normalized BIC auction under a regular common value distribution.
+  authors:
+    - "Arthur Freitas Ramos"
+  responsible_maintainers:
+    - "Arthur Freitas Ramos"
+  license: "BSD-3-Clause"
+
+sources:
+  - title: "Auctions Versus Negotiations"
+    authors:
+      - "Jeremy Bulow"
+      - "Paul Klemperer"
+    type: "article"
+    location: "American Economic Review 86(1), 180-194, 1996."
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      The formalization treats the independent, identically distributed
+      private-value second-price comparison, rather than the paper's full
+      negotiation or affiliated-signal setting.
+
+related_formalizations: []
+
+classification:
+  arxiv:
+    - "cs.GT"
+    - "econ.TH"
+
+status:
+  scope: >-
+    The exact main binder and statement are
+    BulowKlemperer.bulowKlemperer (D : ValueDistribution)
+    (hreg : D.Regular) (m : ℕ) :
+    (D.secondPriceAuction (m + 1)).expectedRevenue ≥
+    (D.optimalAuction m).expectedRevenue.
+    Both auction constructors take n and return DirectMechanism D (n + 1),
+    so secondPriceAuction (m + 1) has m + 2 bidders and optimalAuction m
+    has m + 1. The author knows of no earlier Palomar registry entry for
+    this Bulow-Klemperer statement after a registry/web search on 2026-09-28.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  main_results:
+    - declaration: "BulowKlemperer.Palomar.bulowKlemperer"
+      file: "Solution.lean"
+      description: >-
+        Under hreg : D.Regular, the no-reserve second-price auction with
+        m + 2 bidders weakly exceeds the optimal auction with m + 1 bidders
+        in expected revenue.
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "BulowKlemperer.Palomar.optimalAuction_expectedRevenue"
+      file: "Solution.lean"
+      description: >-
+        For n + 1 bidders, optimal-auction revenue equals the expectation
+        of max 0 (D.maxVirtual n v).
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "BulowKlemperer.Palomar.secondPriceAuction_expectedRevenue"
+      file: "Solution.lean"
+      description: >-
+        For n + 1 bidders, no-reserve second-price revenue equals the
+        expectation of D.maxVirtual n v without a positive part.
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "GPT-6 via Codex"
+      framework: "Lean 4 v4.35.0-rc2 and Mathlib v4.35.0-rc2"
+      tool_setup: >-
+        The Lean toolchain and Mathlib revision are pinned in lean-toolchain
+        and lakefile.toml.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: >-
+        Lean checks the implementation. Challenge.lean separately declares
+        three comparator statements with intentional placeholders.
+  spend_usd: "subscription-based"
+  notes: >-
+    AI assistance was used for the formalization and packaging. This milestone
+    performed no Palomar submission or registration.
+
+fidelity:
+  divergences: >-
+    ValueDistribution has a common real-valued probability law with a
+    measurable strictly positive density on (0, omega), zero density
+    outside that interval, and a continuous cdf. jointLaw is a product
+    measure, giving continuous i.i.d. private values. Regular means
+    StrictMonoOn D.virtualValue (Set.Ioo 0 D.omega), not global monotonicity.
+    DirectMechanism.interimUtility is x times interim allocation minus
+    interim payment, expressing risk-neutral bidders. The second-price
+    winner is the highest value bidder, without a reserve; the optimal
+    virtual allocation can leave the item unsold when every virtual value
+    is negative. expectedRevenue sums expected interim payments. The
+    theorem concerns this normalized BIC direct-mechanism model and does
+    not cover affiliated signals or the paper's general negotiations.
+
+alignment:
+  namespace: "BulowKlemperer.Palomar"
+  statements:
+    - source: "Continuous i.i.d. private values and regularity"
+      lean: "BulowKlemperer.ValueDistribution; BulowKlemperer.ValueDistribution.Regular; BulowKlemperer.ValueDistribution.jointLaw"
+      module: "BulowKlemperer/Probability.lean"
+      status: "defined"
+      note: >-
+        ValueDistribution carries law, density, cdf, and support fields;
+        Regular is strict monotonicity of virtualValue only on (0, omega),
+        and jointLaw n is Measure.pi of the common law.
+    - source: "Optimal auction revenue identity"
+      lean: "BulowKlemperer.Palomar.optimalAuction_expectedRevenue"
+      module: "Solution.lean"
+      status: "proved"
+      note: >-
+        (D : ValueDistribution) (hreg : D.Regular) (m : ℕ):
+        (D.optimalAuction m).expectedRevenue equals the integral of
+        max 0 (D.maxVirtual m v) under D.jointLaw (m + 1).
+    - source: "No-reserve second-price revenue identity"
+      lean: "BulowKlemperer.Palomar.secondPriceAuction_expectedRevenue"
+      module: "Solution.lean"
+      status: "proved"
+      note: >-
+        (D : ValueDistribution) (hreg : D.Regular) (m : ℕ):
+        (D.secondPriceAuction m).expectedRevenue equals the integral of
+        D.maxVirtual m v under D.jointLaw (m + 1), without max 0.
+    - source: "Bulow-Klemperer revenue comparison"
+      lean: "BulowKlemperer.Palomar.bulowKlemperer"
+      module: "Solution.lean"
+      status: "proved"
+      note: >-
+        (D : ValueDistribution) (hreg : D.Regular) (m : ℕ):
+        (D.secondPriceAuction (m + 1)).expectedRevenue ≥
+        (D.optimalAuction m).expectedRevenue.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    The local verifier checks compilation, comparator declarations and kinds,
+    axioms, proof placeholders, and the Challenge import surface.
+
+acknowledgements: >-
+  Mathlib contributors and Jeremy Bulow and Paul Klemperer for the source result.

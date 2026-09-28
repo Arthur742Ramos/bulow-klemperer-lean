@@ -1,6 +1,6 @@
 name = "bulow-klemperer"
 version = "0.1.0"
-defaultTargets = ["BulowKlemperer"]
+defaultTargets = ["BulowKlemperer", "Challenge", "Solution"]
 
 [[require]]
 name = "mathlib"
@@ -9,3 +9,9 @@ rev = "v4.35.0-rc2"
 
 [[lean_lib]]
 name = "BulowKlemperer"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
