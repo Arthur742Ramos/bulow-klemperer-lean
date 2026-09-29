@@ -6,7 +6,8 @@
     "BulowKlemperer.ValueDistribution.optimalAuction",
     "BulowKlemperer.DirectMechanism.expectedRevenue",
     "BulowKlemperer.ValueDistribution.Regular",
-    "BulowKlemperer.ValueDistribution.maxVirtual"
+    "BulowKlemperer.ValueDistribution.maxVirtual",
+    "BulowKlemperer.ValueDistribution.jointLaw"
   ],
   "theorem_names": [
     "BulowKlemperer.Palomar.optimalAuction_expectedRevenue",

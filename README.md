@@ -63,4 +63,4 @@ The model uses the BIC condition in [`DirectMechanism.BIC`](BulowKlemperer/Reven
 
 ## Palomar package
 
-[`Challenge.lean`](Challenge.lean) states three comparison theorems with deliberate placeholders. [`Solution.lean`](Solution.lean) proves the same statements from the library. The two modules compile separately; neither imports the other. [`comparator.json`](comparator.json) names those theorems and five genuine definitions. Run `scripts/verify-palomar.sh` to check compilation, declarations, axiom use, and the comparator. `lake build` includes both modules.
+[`Challenge.lean`](Challenge.lean) states three comparison theorems with deliberate placeholders. [`Solution.lean`](Solution.lean) proves the same statements from the library. The two modules compile separately; neither imports the other. [`comparator.json`](comparator.json) names those theorems and six genuine definitions. Run `scripts/verify-palomar.sh` to check compilation, declarations, axiom use, and the comparator. `lake build` includes both modules.

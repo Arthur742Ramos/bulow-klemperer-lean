@@ -116,6 +116,7 @@ expected_definitions = [
     "BulowKlemperer.DirectMechanism.expectedRevenue",
     "BulowKlemperer.ValueDistribution.Regular",
     "BulowKlemperer.ValueDistribution.maxVirtual",
+    "BulowKlemperer.ValueDistribution.jointLaw",
 ]
 expected_theorems = [
     "BulowKlemperer.Palomar.optimalAuction_expectedRevenue",
@@ -139,8 +140,8 @@ if set(config.get("permitted_axioms", [])) != {
 
 challenge = pathlib.Path("Challenge.lean").read_text(encoding="utf-8")
 challenge_sorry_count = len(re.findall(r"\bsorry\b", challenge))
-if challenge_sorry_count != 3:
-    raise SystemExit(f"error: Challenge.lean must contain exactly 3 sorry tokens, found {challenge_sorry_count}")
+if challenge_sorry_count != 9:
+    raise SystemExit(f"error: Challenge.lean must contain exactly 9 sorry tokens (6 definition holes + 3 theorem placeholders), found {challenge_sorry_count}")
 if re.search(r"\b(admit|axiom|unsafe)\b", challenge):
     raise SystemExit("error: Challenge.lean contains admit, axiom, or unsafe")
 
